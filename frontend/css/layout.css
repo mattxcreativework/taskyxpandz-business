@@ -65,4 +65,21 @@ tbody tr { border-top: 1px solid var(--border); }
 }
 .andamento { background: rgba(37, 99, 255, 0.15); color: var(--primary); }
 .concluida { background: rgba(22, 163, 74, 0.15); color: #16a34a; }
-.atrasada  { background: rgba(220, 38, 38, 0.15); color: #dc2626; }
+.atrasada  { background: rgba(220, 38, 38, 0.15); color: #dc2626; }.task-form { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.task-form input {
+  flex: 1;
+  min-width: 140px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-soft);
+  color: var(--text);
+}
+.task-form button {
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+}

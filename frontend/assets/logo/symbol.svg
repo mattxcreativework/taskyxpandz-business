@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 64" fill="none" stroke="#2563FF" stroke-width="2.5">
+  
+  <path d="M68 18 C42 6, 14 14, 14 32 C14 50, 42 58, 68 46" />
+  <path d="M68 23 H78 V41 H68" />
+  <line x1="73" y1="23" x2="73" y2="41" />
+
+  
+  <path d="M92 18 C118 6, 146 14, 146 32 C146 50, 118 58, 92 46" />
+  <path d="M92 23 H82 V41 H92" />
+  <line x1="87" y1="23" x2="87" y2="41" />
+</svg>

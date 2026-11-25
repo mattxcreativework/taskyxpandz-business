@@ -45,7 +45,12 @@
   </article>
 </section>
 <section class="tasks">
-  <h2>Tarefas recentes</h2>
+  <h2>Tarefas recentes</h2><form id="task-form" class="task-form">
+  <input id="task-title" placeholder="Nova tarefa" required />
+  <input id="task-owner" placeholder="Responsável" required />
+  <input id="task-date" placeholder="Prazo (ex: 30/11)" required />
+  <button type="submit">Adicionar</button>
+</form>
   <table>
     <thead>
       <tr>

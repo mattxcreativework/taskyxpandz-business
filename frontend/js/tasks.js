@@ -34,5 +34,15 @@ function renderizar() {
   document.getElementById("stat-concluidas").textContent = contar("concluida");
   document.getElementById("stat-atrasadas").textContent = contar("atrasada");
 }
-
 renderizar();
+document.getElementById("task-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  tarefas.push({
+    titulo: document.getElementById("task-title").value,
+    responsavel: document.getElementById("task-owner").value,
+    prazo: document.getElementById("task-date").value,
+    status: "andamento",
+  });
+  e.target.reset();
+  renderizar();
+});
