@@ -29,15 +29,15 @@
         <section class="cards">
   <article class="card">
     <span class="card-label">Tarefas ativas</span>
-    <strong class="card-value">24</strong>
+    <strong class="card-value" id="stat-ativas">24</strong>
   </article>
   <article class="card">
     <span class="card-label">Concluídas</span>
-    <strong class="card-value">118</strong>
+    <strong class="card-value" id="stat-concluidas">118</strong>
   </article>
   <article class="card">
     <span class="card-label">Atrasadas</span>
-    <strong class="card-value">5</strong>
+    <strong class="card-value" id="stat-atrasadas">5</strong>
   </article>
   <article class="card">
     <span class="card-label">Equipe</span>
@@ -55,31 +55,13 @@
         <th>Status</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td>Revisar proposta comercial</td>
-        <td>Ana Souza</td>
-        <td>28/11</td>
-        <td><span class="badge andamento">Em andamento</span></td>
-      </tr>
-      <tr>
-        <td>Atualizar relatório mensal</td>
-        <td>Carlos Lima</td>
-        <td>25/11</td>
-        <td><span class="badge atrasada">Atrasada</span></td>
-      </tr>
-      <tr>
-        <td>Reunião de alinhamento</td>
-        <td>Marina Alves</td>
-        <td>24/11</td>
-        <td><span class="badge concluida">Concluída</span></td>
-      </tr>
-    </tbody>
+    <tbody id="tasks-body"></tbody>
   </table>
 </section>
       </main>
     </div>
   </div>
-  <script src="../js/theme.js"></script>
+   <script src="../js/theme.js"></script>
+  <script src="../js/tasks.js"></script>
 </body>
 </html>
