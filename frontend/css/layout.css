@@ -25,3 +25,20 @@
   border-bottom: 1px solid var(--border);
 }
 .content { padding: 24px; }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card-label { color: var(--text-muted); font-size: 14px; }
+.card-value { font-size: 32px; color: var(--primary); }
