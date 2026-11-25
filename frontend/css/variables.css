@@ -1,0 +1,28 @@
+/* ===== Cores base da marca ===== */
+:root {
+  --navy: #0B1F3A;
+  --electric: #2563FF;
+  --white: #FFFFFF;
+  --gray: #64748B;
+}
+
+/* ===== Tema claro (padrão) ===== */
+:root,
+[data-theme="light"] {
+  --bg: #FFFFFF;
+  --bg-soft: #F1F5F9;
+  --text: #0B1F3A;
+  --text-muted: #64748B;
+  --primary: #2563FF;
+  --border: #E2E8F0;
+}
+
+/* ===== Tema escuro ===== */
+[data-theme="dark"] {
+  --bg: #0B1F3A;
+  --bg-soft: #112B4D;
+  --text: #FFFFFF;
+  --text-muted: #94A3B8;
+  --primary: #4C82FF;
+  --border: #1E3A5F;
+}
