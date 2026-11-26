@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | TaskyXPandz for Business</title>
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+</head>
+<body data-theme="light">
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">TaskyXPandz</div>
+      <nav>
+        <a href="#">Dashboard</a>
+        <a href="#">Tarefas</a>
+        <a href="#">Equipes</a>
+        <a href="#">Relatórios</a>
+        <a href="#">Configurações</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <h1>Tarefas</h1>
+        <button id="theme-toggle">Alternar tema</button>
+      </header>
+      <main class="content">
+       
+<section class="tasks">
+  <h2>Tarefas recentes</h2><form id="task-form" class="task-form">
+  <input id="task-title" placeholder="Nova tarefa" required />
+  <input id="task-owner" placeholder="Responsável" required />
+  <input id="task-date" placeholder="Prazo (ex: 30/11)" required />
+  <button type="submit">Adicionar</button>
+</form>
+  <table>
+    <thead>
+      <tr>
+        <th>Tarefa</th>
+        <th>Responsável</th>
+        <th>Prazo</th>
+        <th>Status</th><th></th>
+      </tr>
+    </thead>
+    <tbody id="tasks-body"></tbody>
+  </table>
+</section>
+      </main>
+    </div>
+  </div>
+   <script src="../js/theme.js"></script>
+  <script src="../js/tasks.js"></script>
+</body>
+</html>

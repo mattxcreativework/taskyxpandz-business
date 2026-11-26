@@ -37,9 +37,11 @@ function renderizar() {
     )
     .join("");
 
-  document.getElementById("stat-ativas").textContent = contar("andamento");
-  document.getElementById("stat-concluidas").textContent = contar("concluida");
-  document.getElementById("stat-atrasadas").textContent = contar("atrasada");
+   const stats = { "stat-ativas": "andamento", "stat-concluidas": "concluida", "stat-atrasadas": "atrasada" };
+  for (const id in stats) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = contar(stats[id]);
+  }
 }
 renderizar();
 document.getElementById("task-form").addEventListener("submit", (e) => {
