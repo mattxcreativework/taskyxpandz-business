@@ -26,12 +26,13 @@ function renderizar() {
   const corpo = document.getElementById("tasks-body");
   corpo.innerHTML = tarefas
     .map(
-      (t) => `
+        (t, i) => `  
     <tr>
       <td>${t.titulo}</td>
       <td>${t.responsavel}</td>
       <td>${t.prazo}</td>
-      <td><span class="badge ${t.status}">${rotulos[t.status]}</span></td>
+              <td><span class="badge ${t.status}">${rotulos[t.status]}</span></td>
+      <td><button class="btn-del" data-i="${i}">Excluir</button></td>
     </tr>`
     )
     .join("");
@@ -52,4 +53,11 @@ document.getElementById("task-form").addEventListener("submit", (e) => {
   salvar();
   e.target.reset();
   renderizar();
+});
+document.getElementById("tasks-body").addEventListener("click", (e) => {
+  if (e.target.classList.contains("btn-del")) {
+    tarefas.splice(e.target.dataset.i, 1);
+    salvar();
+    renderizar();
+  }
 });

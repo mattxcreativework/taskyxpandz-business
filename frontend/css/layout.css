@@ -82,4 +82,12 @@ tbody tr { border-top: 1px solid var(--border); }
   background: var(--primary);
   color: #fff;
   cursor: pointer;
+}.btn-del {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: #dc2626;
+  cursor: pointer;
 }
+.btn-del:hover { background: rgba(220, 38, 38, 0.15); }
