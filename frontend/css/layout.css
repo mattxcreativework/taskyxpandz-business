@@ -15,6 +15,11 @@
   border-radius: 8px;
 }
 .sidebar a:hover { background: var(--border); }
+.sidebar a.ativo {
+  background: rgba(37, 99, 255, 0.15);
+  color: var(--primary);
+  font-weight: 600;
+}
 
 .main { flex: 1; display: flex; flex-direction: column; }
 .topbar {
@@ -65,7 +70,9 @@ tbody tr { border-top: 1px solid var(--border); }
 }
 .andamento { background: rgba(37, 99, 255, 0.15); color: var(--primary); }
 .concluida { background: rgba(22, 163, 74, 0.15); color: #16a34a; }
-.atrasada  { background: rgba(220, 38, 38, 0.15); color: #dc2626; }.task-form { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.atrasada  { background: rgba(220, 38, 38, 0.15); color: #dc2626; }
+
+.task-form { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
 .task-form input {
   flex: 1;
   min-width: 140px;
@@ -82,7 +89,9 @@ tbody tr { border-top: 1px solid var(--border); }
   background: var(--primary);
   color: #fff;
   cursor: pointer;
-}.btn-del {
+}
+
+.btn-del {
   padding: 4px 10px;
   border: 1px solid var(--border);
   border-radius: 8px;
