@@ -1,10 +1,16 @@
-const tarefas = [
+const padrao = [
   { titulo: "Revisar proposta comercial", responsavel: "Ana Souza", prazo: "28/11", status: "andamento" },
   { titulo: "Atualizar relatório mensal", responsavel: "Carlos Lima", prazo: "25/11", status: "atrasada" },
   { titulo: "Reunião de alinhamento", responsavel: "Marina Alves", prazo: "24/11", status: "concluida" },
   { titulo: "Preparar apresentação", responsavel: "Ana Souza", prazo: "30/11", status: "andamento" },
   { titulo: "Revisar contrato", responsavel: "Pedro Dias", prazo: "22/11", status: "concluida" },
 ];
+
+const tarefas = JSON.parse(localStorage.getItem("tasky-business-tarefas")) || padrao;
+
+function salvar() {
+  localStorage.setItem("tasky-business-tarefas", JSON.stringify(tarefas));
+}
 
 const rotulos = {
   andamento: "Em andamento",
@@ -42,7 +48,8 @@ document.getElementById("task-form").addEventListener("submit", (e) => {
     responsavel: document.getElementById("task-owner").value,
     prazo: document.getElementById("task-date").value,
     status: "andamento",
-  });
+    });
+  salvar();
   e.target.reset();
   renderizar();
 });
