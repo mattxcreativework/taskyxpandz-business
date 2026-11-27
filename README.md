@@ -3,9 +3,12 @@
 > Work Smarter. Grow Further.
 
 
+
+
 🚀 **Live demo:** https://mattxcreativework.github.io/taskyxpandz-business/
 
-Login: use `matt@acme.com` + código `DEMO1234` (modo demo, salvo no navegador).
+Login: use `matt@acme.com` + code `DEMO1234` (demo mode, saved in the browser).
+
 
 
 
