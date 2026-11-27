@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="aba.login">Entrar | TaskyXPandz for Business</title>
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+</head>
+<body data-theme="light">
+  <div class="login-page">
+    <section class="login-box">
+      <div class="login-idiomas">
+        <button class="btn-idioma" data-idioma="pt">PT</button>
+        <button class="btn-idioma" data-idioma="en">EN</button>
+      </div>
+      <h1 data-i18n="login.titulo">Entrar</h1>
+      <p data-i18n="login.descricao">Sem senha: enviamos um código para o seu e-mail.</p>
+
+      <form id="form-email">
+        <label for="login-email" data-i18n="login.email">E-mail da empresa</label>
+        <input id="login-email" type="email" placeholder="empresa@email.com" required />
+        <button type="submit" data-i18n="login.enviar">Enviar código</button>
+      </form>
+
+      <div id="codigo-box" hidden>
+        <form id="form-codigo">
+          <label for="login-codigo" data-i18n="login.codigo">Código recebido</label>
+          <input id="login-codigo" type="text" autocomplete="one-time-code" required />
+          <button type="submit" data-i18n="login.entrar">Entrar</button>
+        </form>
+      </div>
+
+      <p id="mensagem"></p>
+    </section>
+  </div>
+  <script src="../js/i18n.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/login.js"></script>
+</body>
+</html>

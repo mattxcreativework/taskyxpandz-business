@@ -37,6 +37,16 @@ const idiomas = {
     "texto.equipes": "Em breve: gestão de equipes e membros.",
     "texto.relatorios": "Em breve: gráficos e indicadores do projeto.",
     "texto.configuracoes": "Em breve: preferências da empresa e do usuário.",
+    "aba.login": "Entrar | TaskyXPandz for Business",
+    "login.titulo": "Entrar",
+    "login.descricao": "Sem senha: enviamos um link para o seu e-mail.",
+    "login.email": "E-mail da empresa",
+    "login.enviar": "Enviar código",
+    "login.codigo": "Código recebido",
+    "login.entrar": "Entrar",
+    "login.mensagem": "Código enviado. Use o código abaixo para entrar.",
+    "login.erro": "Não foi possível entrar. Confira o e-mail e o código.",
+    "perfil.sair": "Sair",
   },
   en: {
     "aba.dashboard": "Dashboard | TaskyXPandz for Business",
@@ -76,6 +86,16 @@ const idiomas = {
     "texto.equipes": "Soon: team and member management.",
     "texto.relatorios": "Soon: charts and project indicators.",
     "texto.configuracoes": "Soon: company and user preferences.",
+    "aba.login": "Sign in | TaskyXPandz for Business",
+    "login.titulo": "Sign in",
+    "login.descricao": "No password: we send a code to your e-mail.",
+    "login.email": "Company e-mail",
+    "login.enviar": "Send code",
+    "login.codigo": "Received code",
+    "login.entrar": "Sign in",
+    "login.mensagem": "Code sent. Use the code below to sign in.",
+    "login.erro": "Could not sign in. Check your e-mail and code.",
+    "perfil.sair": "Sign out",
   },
 };
 
@@ -113,7 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.className = "btn-idioma";
       btn.dataset.idioma = sigla;
       btn.textContent = sigla.toUpperCase();
-      btn.addEventListener("click", () => aplicarIdioma(sigla));
       acoes.appendChild(btn);
     });
 
@@ -125,6 +144,10 @@ document.addEventListener("DOMContentLoaded", () => {
       topbar.appendChild(acoes);
     }
   }
+
+  document.querySelectorAll(".btn-idioma").forEach((btn) => {
+    btn.addEventListener("click", () => aplicarIdioma(btn.dataset.idioma));
+  });
 
   aplicarIdioma(idiomaAtual);
 });
