@@ -26,21 +26,41 @@ function contar(status) {
 
 function renderizar() {
   const corpo = document.getElementById("tasks-body");
-  corpo.innerHTML = tarefas
-    .map(
-      (t, i) => `
-    <tr>
-      <td>${t.titulo}</td>
-      <td>${t.responsavel}</td>
-      <td>${t.prazo}</td>
-      <td><span class="badge ${t.status}">${rotulos[t.status]}</span></td>
-      <td>
-        <button class="btn-status" data-i="${i}">Mudar status</button>
-        <button class="btn-del" data-i="${i}">Excluir</button>
-      </td>
-    </tr>`
-    )
-    .join("");
+  corpo.replaceChildren();
+
+  tarefas.forEach((t, i) => {
+    const linha = document.createElement("tr");
+
+    const titulo = document.createElement("td");
+    titulo.textContent = t.titulo;
+
+    const responsavel = document.createElement("td");
+    responsavel.textContent = t.responsavel;
+
+    const prazo = document.createElement("td");
+    prazo.textContent = t.prazo;
+
+    const status = document.createElement("td");
+    const badge = document.createElement("span");
+    badge.className = `badge ${t.status}`;
+    badge.textContent = rotulos[t.status];
+    status.appendChild(badge);
+
+    const acoes = document.createElement("td");
+    const btnStatus = document.createElement("button");
+    btnStatus.className = "btn-status";
+    btnStatus.dataset.i = i;
+    btnStatus.textContent = "Mudar status";
+
+    const btnDel = document.createElement("button");
+    btnDel.className = "btn-del";
+    btnDel.dataset.i = i;
+    btnDel.textContent = "Excluir";
+
+    acoes.append(btnStatus, btnDel);
+    linha.append(titulo, responsavel, prazo, status, acoes);
+    corpo.appendChild(linha);
+  });
 
   const stats = { "stat-ativas": "andamento", "stat-concluidas": "concluida", "stat-atrasadas": "atrasada" };
   for (const id in stats) {
