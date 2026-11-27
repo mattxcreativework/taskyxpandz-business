@@ -18,6 +18,8 @@ const rotulos = {
   atrasada: "Atrasada",
 };
 
+const ordem = ["andamento", "concluida", "atrasada"];
+
 function contar(status) {
   return tarefas.filter((t) => t.status === status).length;
 }
@@ -26,24 +28,28 @@ function renderizar() {
   const corpo = document.getElementById("tasks-body");
   corpo.innerHTML = tarefas
     .map(
-        (t, i) => `  
+      (t, i) => `
     <tr>
       <td>${t.titulo}</td>
       <td>${t.responsavel}</td>
       <td>${t.prazo}</td>
-              <td><span class="badge ${t.status}">${rotulos[t.status]}</span></td>
-      <td><button class="btn-del" data-i="${i}">Excluir</button></td>
+      <td><span class="badge ${t.status}">${rotulos[t.status]}</span></td>
+      <td>
+        <button class="btn-status" data-i="${i}">Mudar status</button>
+        <button class="btn-del" data-i="${i}">Excluir</button>
+      </td>
     </tr>`
     )
     .join("");
 
-   const stats = { "stat-ativas": "andamento", "stat-concluidas": "concluida", "stat-atrasadas": "atrasada" };
+  const stats = { "stat-ativas": "andamento", "stat-concluidas": "concluida", "stat-atrasadas": "atrasada" };
   for (const id in stats) {
     const el = document.getElementById(id);
     if (el) el.textContent = contar(stats[id]);
   }
 }
 renderizar();
+
 document.getElementById("task-form").addEventListener("submit", (e) => {
   e.preventDefault();
   tarefas.push({
@@ -51,14 +57,24 @@ document.getElementById("task-form").addEventListener("submit", (e) => {
     responsavel: document.getElementById("task-owner").value,
     prazo: document.getElementById("task-date").value,
     status: "andamento",
-    });
+  });
   salvar();
   e.target.reset();
   renderizar();
 });
+
 document.getElementById("tasks-body").addEventListener("click", (e) => {
+  const i = Number(e.target.dataset.i);
+
   if (e.target.classList.contains("btn-del")) {
-    tarefas.splice(e.target.dataset.i, 1);
+    tarefas.splice(i, 1);
+    salvar();
+    renderizar();
+  }
+
+  if (e.target.classList.contains("btn-status")) {
+    const atual = ordem.indexOf(tarefas[i].status);
+    tarefas[i].status = ordem[(atual + 1) % ordem.length];
     salvar();
     renderizar();
   }
