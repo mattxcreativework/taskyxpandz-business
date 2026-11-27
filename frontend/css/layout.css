@@ -109,3 +109,22 @@ tbody tr { border-top: 1px solid var(--border); }
   cursor: pointer;
 }
 .btn-status:hover { background: rgba(37, 99, 255, 0.15); }
+
+.topbar-acoes {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.btn-idioma {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.btn-idioma.ativo-idioma {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}

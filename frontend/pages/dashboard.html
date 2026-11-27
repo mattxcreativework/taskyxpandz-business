@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard | TaskyXPandz for Business</title>
+  <title data-i18n="aba.dashboard">Dashboard | TaskyXPandz for Business</title>
   <link rel="stylesheet" href="../css/variables.css" />
   <link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/layout.css" />
@@ -22,42 +22,42 @@
     </aside>
     <div class="main">
       <header class="topbar">
-        <h1>Dashboard</h1>
-        <button id="theme-toggle">Alternar tema</button>
+        <h1 data-i18n="titulo.dashboard">Dashboard</h1>
+        <button id="theme-toggle" data-i18n="acao.tema">Alternar tema</button>
       </header>
       <main class="content">
         <section class="cards">
   <article class="card">
-    <span class="card-label">Tarefas ativas</span>
+    <span class="card-label" data-i18n="card.ativas">Tarefas ativas</span>
     <strong class="card-value" id="stat-ativas">24</strong>
   </article>
   <article class="card">
-    <span class="card-label">Concluídas</span>
+    <span class="card-label" data-i18n="card.concluidas">Concluídas</span>
     <strong class="card-value" id="stat-concluidas">118</strong>
   </article>
   <article class="card">
-    <span class="card-label">Atrasadas</span>
+    <span class="card-label" data-i18n="card.atrasadas">Atrasadas</span>
     <strong class="card-value" id="stat-atrasadas">5</strong>
   </article>
   <article class="card">
-    <span class="card-label">Equipe</span>
+    <span class="card-label" data-i18n="card.equipe">Equipe</span>
     <strong class="card-value">12</strong>
   </article>
 </section>
 <section class="tasks">
-  <h2>Tarefas recentes</h2><form id="task-form" class="task-form">
-  <input id="task-title" placeholder="Nova tarefa" required />
-  <input id="task-owner" placeholder="Responsável" required />
-  <input id="task-date" placeholder="Prazo (ex: 30/11)" required />
-  <button type="submit">Adicionar</button>
+  <h2 data-i18n="lista.recentes">Tarefas recentes</h2><form id="task-form" class="task-form">
+  <input id="task-title" data-i18n-placeholder="form.nova" placeholder="Nova tarefa" required />
+  <input id="task-owner" data-i18n-placeholder="form.responsavel" placeholder="Responsável" required />
+  <input id="task-date" data-i18n-placeholder="form.prazo" placeholder="Prazo (ex: 30/11)" required />
+  <button type="submit" data-i18n="form.adicionar">Adicionar</button>
 </form>
   <table>
     <thead>
       <tr>
-        <th>Tarefa</th>
-        <th>Responsável</th>
-        <th>Prazo</th>
-        <th>Status</th><th></th>
+        <th data-i18n="tabela.tarefa">Tarefa</th>
+        <th data-i18n="tabela.responsavel">Responsável</th>
+        <th data-i18n="tabela.prazo">Prazo</th>
+        <th data-i18n="tabela.status">Status</th><th></th>
       </tr>
     </thead>
     <tbody id="tasks-body"></tbody>
@@ -67,6 +67,7 @@
     </div>
   </div>
    <script src="../js/sidebar.js"></script>
+   <script src="../js/i18n.js"></script>
    <script src="../js/theme.js"></script>
   <script src="../js/tasks.js"></script>
 </body>

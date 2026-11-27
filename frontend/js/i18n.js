@@ -1,0 +1,130 @@
+const idiomas = {
+  pt: {
+    "aba.dashboard": "Dashboard | TaskyXPandz for Business",
+    "aba.tarefas": "Tarefas | TaskyXPandz for Business",
+    "aba.equipes": "Equipes | TaskyXPandz for Business",
+    "aba.relatorios": "Relatórios | TaskyXPandz for Business",
+    "aba.configuracoes": "Configurações | TaskyXPandz for Business",
+    "nav.dashboard": "Dashboard",
+    "nav.tarefas": "Tarefas",
+    "nav.equipes": "Equipes",
+    "nav.relatorios": "Relatórios",
+    "nav.configuracoes": "Configurações",
+    "acao.tema": "Alternar tema",
+    "titulo.dashboard": "Dashboard",
+    "titulo.tarefas": "Tarefas",
+    "titulo.equipes": "Equipes",
+    "titulo.relatorios": "Relatórios",
+    "titulo.configuracoes": "Configurações",
+    "card.ativas": "Tarefas ativas",
+    "card.concluidas": "Concluídas",
+    "card.atrasadas": "Atrasadas",
+    "card.equipe": "Equipe",
+    "lista.recentes": "Tarefas recentes",
+    "form.nova": "Nova tarefa",
+    "form.responsavel": "Responsável",
+    "form.prazo": "Prazo (ex: 30/11)",
+    "form.adicionar": "Adicionar",
+    "tabela.tarefa": "Tarefa",
+    "tabela.responsavel": "Responsável",
+    "tabela.prazo": "Prazo",
+    "tabela.status": "Status",
+    "acao.excluir": "Excluir",
+    "acao.status": "Mudar status",
+    "badge.andamento": "Em andamento",
+    "badge.concluida": "Concluída",
+    "badge.atrasada": "Atrasada",
+    "texto.equipes": "Em breve: gestão de equipes e membros.",
+    "texto.relatorios": "Em breve: gráficos e indicadores do projeto.",
+    "texto.configuracoes": "Em breve: preferências da empresa e do usuário.",
+  },
+  en: {
+    "aba.dashboard": "Dashboard | TaskyXPandz for Business",
+    "aba.tarefas": "Tasks | TaskyXPandz for Business",
+    "aba.equipes": "Teams | TaskyXPandz for Business",
+    "aba.relatorios": "Reports | TaskyXPandz for Business",
+    "aba.configuracoes": "Settings | TaskyXPandz for Business",
+    "nav.dashboard": "Dashboard",
+    "nav.tarefas": "Tasks",
+    "nav.equipes": "Teams",
+    "nav.relatorios": "Reports",
+    "nav.configuracoes": "Settings",
+    "acao.tema": "Toggle theme",
+    "titulo.dashboard": "Dashboard",
+    "titulo.tarefas": "Tasks",
+    "titulo.equipes": "Teams",
+    "titulo.relatorios": "Reports",
+    "titulo.configuracoes": "Settings",
+    "card.ativas": "Active tasks",
+    "card.concluidas": "Completed",
+    "card.atrasadas": "Late",
+    "card.equipe": "Team",
+    "lista.recentes": "Recent tasks",
+    "form.nova": "New task",
+    "form.responsavel": "Owner",
+    "form.prazo": "Due date (ex: 30/11)",
+    "form.adicionar": "Add",
+    "tabela.tarefa": "Task",
+    "tabela.responsavel": "Owner",
+    "tabela.prazo": "Due date",
+    "tabela.status": "Status",
+    "acao.excluir": "Delete",
+    "acao.status": "Change status",
+    "badge.andamento": "In progress",
+    "badge.concluida": "Completed",
+    "badge.atrasada": "Late",
+    "texto.equipes": "Soon: team and member management.",
+    "texto.relatorios": "Soon: charts and project indicators.",
+    "texto.configuracoes": "Soon: company and user preferences.",
+  },
+};
+
+let idiomaAtual = localStorage.getItem("tasky-business-idioma") || "pt";
+
+function traduzir(chave) {
+  return idiomas[idiomaAtual][chave] || chave;
+}
+
+function aplicarIdioma(idioma) {
+  idiomaAtual = idioma;
+  localStorage.setItem("tasky-business-idioma", idioma);
+
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    el.textContent = traduzir(el.dataset.i18n);
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    el.placeholder = traduzir(el.dataset.i18nPlaceholder);
+  });
+
+  document.querySelectorAll(".btn-idioma").forEach((btn) => {
+    btn.classList.toggle("ativo-idioma", btn.dataset.idioma === idioma);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const topbar = document.querySelector(".topbar");
+  if (topbar) {
+    const acoes = document.createElement("div");
+    acoes.className = "topbar-acoes";
+
+    ["pt", "en"].forEach((sigla) => {
+      const btn = document.createElement("button");
+      btn.className = "btn-idioma";
+      btn.dataset.idioma = sigla;
+      btn.textContent = sigla.toUpperCase();
+      btn.addEventListener("click", () => aplicarIdioma(sigla));
+      acoes.appendChild(btn);
+    });
+
+    const tema = document.getElementById("theme-toggle");
+    if (tema) {
+      topbar.insertBefore(acoes, tema);
+      acoes.appendChild(tema);
+    } else {
+      topbar.appendChild(acoes);
+    }
+  }
+
+  aplicarIdioma(idiomaAtual);
+});
