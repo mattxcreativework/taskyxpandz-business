@@ -1,12 +1,15 @@
 require("dotenv").config();
 
+const path = require("path");
+const crypto = require("crypto");
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 const { Pool } = require("pg");
+const { DatabaseSync } = require("node:sqlite");
 
 const app = express();
 
@@ -34,28 +37,73 @@ app.use(
 const pool = USAR_POSTGRES
   ? new Pool({ connectionString: process.env.DATABASE_URL })
   : null;
+const sqlite = pool ? null : new DatabaseSync(path.join(__dirname, "dados.sqlite"));
 
 const STATUS_PERMITIDOS = ["andamento", "concluida", "atrasada"];
 
-let tarefasMemoria = [
-  { id: 1, titulo: "Revisar proposta comercial", responsavel: "Ana Souza", prazo: "28/11", status: "andamento" },
-  { id: 2, titulo: "Atualizar relatorio mensal", responsavel: "Carlos Lima", prazo: "25/11", status: "atrasada" },
-  { id: 3, titulo: "Reuniao de alinhamento", responsavel: "Marina Alves", prazo: "24/11", status: "concluida" },
+const tarefasPadrao = [
+  { titulo: "Revisar proposta comercial", responsavel: "Ana Souza", prazo: "28/11", status: "andamento" },
+  { titulo: "Atualizar relatorio mensal", responsavel: "Carlos Lima", prazo: "25/11", status: "atrasada" },
+  { titulo: "Reuniao de alinhamento", responsavel: "Marina Alves", prazo: "24/11", status: "concluida" },
+  { titulo: "Preparar apresentacao", responsavel: "Ana Souza", prazo: "30/11", status: "andamento" },
+  { titulo: "Revisar contrato", responsavel: "Pedro Dias", prazo: "22/11", status: "concluida" },
 ];
-let proximoId = tarefasMemoria.length + 1;
+
+const transporter = process.env.SMTP_HOST
+  ? nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: process.env.SMTP_SECURE === "true",
+      auth: process.env.SMTP_USER
+        ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+        : undefined,
+    })
+  : null;
 
 async function inicializarBanco() {
-  if (!pool) return;
-  await pool.query(`
+  if (pool) {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS tarefas (
+        id SERIAL PRIMARY KEY,
+        titulo TEXT NOT NULL,
+        responsavel TEXT NOT NULL,
+        prazo TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'andamento',
+        criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `);
+    const resultado = await pool.query("SELECT COUNT(*)::int AS total FROM tarefas");
+    if (resultado.rows[0].total === 0) {
+      for (const tarefa of tarefasPadrao) {
+        await pool.query(
+          "INSERT INTO tarefas (titulo, responsavel, prazo, status) VALUES ($1, $2, $3, $4)",
+          [tarefa.titulo, tarefa.responsavel, tarefa.prazo, tarefa.status]
+        );
+      }
+    }
+    return;
+  }
+
+  sqlite.exec(`
     CREATE TABLE IF NOT EXISTS tarefas (
-      id SERIAL PRIMARY KEY,
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
       titulo TEXT NOT NULL,
       responsavel TEXT NOT NULL,
       prazo TEXT NOT NULL,
       status TEXT NOT NULL DEFAULT 'andamento',
-      criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
   `);
+
+  const total = sqlite.prepare("SELECT COUNT(*) AS total FROM tarefas").get();
+  if (total.total === 0) {
+    const inserir = sqlite.prepare(
+      "INSERT INTO tarefas (titulo, responsavel, prazo, status) VALUES (?, ?, ?, ?)"
+    );
+    for (const tarefa of tarefasPadrao) {
+      inserir.run(tarefa.titulo, tarefa.responsavel, tarefa.prazo, tarefa.status);
+    }
+  }
 }
 
 function validarTarefa(corpo) {
@@ -77,7 +125,9 @@ async function listarTarefas() {
     );
     return resultado.rows;
   }
-  return tarefasMemoria;
+  return sqlite
+    .prepare("SELECT id, titulo, responsavel, prazo, status FROM tarefas ORDER BY id")
+    .all();
 }
 
 async function criarTarefa(dados) {
@@ -89,9 +139,13 @@ async function criarTarefa(dados) {
     return resultado.rows[0];
   }
 
-  const tarefa = { id: proximoId++, ...dados, status: "andamento" };
-  tarefasMemoria.push(tarefa);
-  return tarefa;
+  const info = sqlite
+    .prepare("INSERT INTO tarefas (titulo, responsavel, prazo, status) VALUES (?, ?, ?, ?)")
+    .run(dados.titulo, dados.responsavel, dados.prazo, "andamento");
+
+  return sqlite
+    .prepare("SELECT id, titulo, responsavel, prazo, status FROM tarefas WHERE id = ?")
+    .get(Number(info.lastInsertRowid));
 }
 
 async function atualizarStatus(id, status) {
@@ -103,10 +157,14 @@ async function atualizarStatus(id, status) {
     return resultado.rows[0] || null;
   }
 
-  const tarefa = tarefasMemoria.find((item) => item.id === Number(id));
-  if (!tarefa) return null;
-  tarefa.status = status;
-  return tarefa;
+  const info = sqlite
+    .prepare("UPDATE tarefas SET status = ? WHERE id = ?")
+    .run(status, Number(id));
+  if (info.changes === 0) return null;
+
+  return sqlite
+    .prepare("SELECT id, titulo, responsavel, prazo, status FROM tarefas WHERE id = ?")
+    .get(Number(id));
 }
 
 async function excluirTarefa(id) {
@@ -114,11 +172,8 @@ async function excluirTarefa(id) {
     const resultado = await pool.query("DELETE FROM tarefas WHERE id = $1", [id]);
     return resultado.rowCount > 0;
   }
-
-  const indice = tarefasMemoria.findIndex((item) => item.id === Number(id));
-  if (indice === -1) return false;
-  tarefasMemoria.splice(indice, 1);
-  return true;
+  const info = sqlite.prepare("DELETE FROM tarefas WHERE id = ?").run(Number(id));
+  return info.changes > 0;
 }
 
 const rota = (funcao) => (req, res, proximo) =>
@@ -127,7 +182,7 @@ const rota = (funcao) => (req, res, proximo) =>
 app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",
-    modo: pool ? "postgres" : "memoria",
+    modo: pool ? "postgres" : "sqlite",
     agora: new Date().toISOString(),
   });
 });
@@ -141,8 +196,7 @@ app.post("/api/tarefas", rota(async (req, res) => {
   if (!dados) {
     return res.status(400).json({ erro: "titulo, responsavel e prazo sao obrigatorios" });
   }
-  const tarefa = await criarTarefa(dados);
-  res.status(201).json(tarefa);
+  res.status(201).json(await criarTarefa(dados));
 }));
 
 app.patch("/api/tarefas/:id/status", rota(async (req, res) => {
@@ -161,36 +215,47 @@ app.delete("/api/tarefas/:id", rota(async (req, res) => {
   res.status(204).send();
 }));
 
-const linksMagic = new Map();
+const linksCodigo = new Map();
 
-app.post("/api/auth/solicitar-link", rota(async (req, res) => {
+app.post("/api/auth/solicitar-codigo", rota(async (req, res) => {
   const email = String(req.body.email || "").trim().toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ erro: "e-mail invalido" });
   }
 
-  const token = crypto.randomBytes(24).toString("hex");
-  linksMagic.set(email, { token, expira: Date.now() + 15 * 60 * 1000 });
+  const codigo = crypto.randomBytes(4).toString("hex").toUpperCase();
+  linksCodigo.set(email, { codigo, expira: Date.now() + 15 * 60 * 1000 });
 
-  // Em producao, enviar e-mail. Em desenvolvimento, o token volta na resposta.
-  res.json({ mensagem: "Link enviado", token });
+  const texto = `Seu codigo TaskyXPandz e: ${codigo}. Ele expira em 15 minutos.`;
+
+  if (transporter) {
+    await transporter.sendMail({
+      from: process.env.EMAIL_FROM || process.env.SMTP_USER,
+      to: email,
+      subject: "Seu codigo de acesso TaskyXPandz",
+      text: texto,
+    });
+    return res.json({ mensagem: "Codigo enviado por e-mail", modo: "email" });
+  }
+
+  res.json({ mensagem: "Codigo gerado", codigo, modo: "dev" });
 }));
 
 app.post("/api/auth/verificar", rota(async (req, res) => {
   const email = String(req.body.email || "").trim().toLowerCase();
-  const token = String(req.body.token || "");
-  const registro = linksMagic.get(email);
+  const codigo = String(req.body.codigo || "").trim().toUpperCase();
+  const registro = linksCodigo.get(email);
 
-  if (!registro || registro.token !== token || registro.expira < Date.now()) {
-    return res.status(401).json({ erro: "link invalido ou expirado" });
+  if (!registro || registro.codigo !== codigo || registro.expira < Date.now()) {
+    return res.status(401).json({ erro: "codigo invalido ou expirado" });
   }
 
-  linksMagic.delete(email);
-  const jwtToken = jwt.sign({ email, empresa: "Acme Studio" }, JWT_SECRET, {
+  linksCodigo.delete(email);
+  const token = jwt.sign({ email, empresa: "Acme Studio" }, JWT_SECRET, {
     expiresIn: "7d",
   });
 
-  res.json({ token: jwtToken, usuario: { email, empresa: "Acme Studio" } });
+  res.json({ token, usuario: { email, empresa: "Acme Studio" } });
 }));
 
 function autenticar(req, res, proximo) {
@@ -220,7 +285,8 @@ inicializarBanco()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`API TaskyXPandz rodando na porta ${PORT}`);
-      console.log(`Modo: ${pool ? "PostgreSQL" : "memoria (sem DATABASE_URL)"}`);
+      console.log(`Banco: ${pool ? "PostgreSQL" : "SQLite (backend/dados.sqlite)"}`);
+      console.log(`E-mail: ${transporter ? "SMTP configurado" : "modo dev (codigo na resposta)"}`);
     });
   })
   .catch((erro) => {

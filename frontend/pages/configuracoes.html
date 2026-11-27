@@ -19,14 +19,36 @@
       <main class="content">
         <section class="tasks">
           <h2 data-i18n="titulo.configuracoes">Configurações</h2>
-          <p data-i18n="texto.configuracoes">Em breve: preferências da empresa e do usuário.</p>
+          <p data-i18n="config.descricao">Preferências da empresa e do usuário.</p>
+
+          <form id="form-config" class="config-card">
+            <label for="config-empresa" data-i18n="config.empresa">Nome da empresa</label>
+            <input id="config-empresa" required />
+
+            <label for="config-idioma" data-i18n="config.idioma">Idioma padrão</label>
+            <select id="config-idioma">
+              <option value="pt">Português</option>
+              <option value="en">English</option>
+            </select>
+
+            <label for="config-tema" data-i18n="config.tema">Tema padrão</label>
+            <select id="config-tema">
+              <option value="light" data-i18n="config.claro">Claro</option>
+              <option value="dark" data-i18n="config.escuro">Escuro</option>
+            </select>
+
+            <button type="submit" data-i18n="config.salvar">Salvar preferências</button>
+          </form>
+
+          <p id="config-mensagem"></p>
         </section>
       </main>
     </div>
   </div>
   <script src="../js/sidebar.js"></script>
   <script src="../js/i18n.js"></script>
-  <script src="../js/auth.js"></script>
   <script src="../js/theme.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/configuracoes.js"></script>
 </body>
 </html>

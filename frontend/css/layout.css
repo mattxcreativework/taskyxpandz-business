@@ -129,37 +129,94 @@ tbody tr { border-top: 1px solid var(--border); }
   border-color: var(--primary);
 }
 
-.perfil {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.perfil-menu {
+  position: relative;
 }
-.avatar {
-  width: 32px;
-  height: 32px;
+.avatar-btn,
+.perfil-avatar {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
+  border: 2px solid var(--border);
   background: var(--primary);
   color: #fff;
   display: grid;
   place-items: center;
   font-size: 12px;
   font-weight: 700;
-}
-.perfil-info {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-.perfil-info small { color: var(--text-muted); }
-.btn-sair {
-  padding: 4px 10px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: transparent;
-  color: #dc2626;
   cursor: pointer;
 }
-.btn-sair:hover { background: rgba(220, 38, 38, 0.15); }
+.perfil-avatar { cursor: default; }
+.perfil-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 20;
+  width: 200px;
+  padding: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  display: grid;
+  gap: 4px;
+}
+.perfil-dropdown[hidden] { display: none; }
+.perfil-item {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+.perfil-item:hover { background: var(--bg-soft); }
+.perfil-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+}
+.perfil-rotulo { color: var(--text-muted); font-size: 14px; }
+.perfil-sair { color: #dc2626; }
+.perfil-sair:hover { background: rgba(220, 38, 38, 0.15); }
+
+.perfil-card {
+  max-width: 520px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  display: grid;
+  gap: 16px;
+}
+.perfil-card-topo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.perfil-card-topo strong { display: block; }
+.perfil-card-topo small { color: var(--text-muted); }
+.perfil-card form { display: grid; gap: 10px; }
+.perfil-card label { color: var(--text-muted); font-size: 14px; }
+.perfil-card input {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+.perfil-card button {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+}
 
 .login-page {
   min-height: 100vh;
@@ -201,9 +258,76 @@ tbody tr { border-top: 1px solid var(--border); }
   color: #fff;
   cursor: pointer;
 }
-#mensagem {
+#mensagem,
+#config-mensagem {
   min-height: 20px;
   margin-top: 16px;
   color: var(--text-muted);
   font-size: 14px;
+}
+
+.equipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.equipe-card small { color: var(--text-muted); }
+.equipe-card ul { margin: 4px 0 8px; padding-left: 20px; }
+.equipe-card li { font-size: 14px; }
+
+.relatorio-blocos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+.relatorio-blocos h3 { margin-bottom: 12px; font-size: 16px; }
+.barra-linha {
+  display: grid;
+  grid-template-columns: 110px 1fr 32px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.barra {
+  height: 10px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.barra-preenchimento { height: 100%; }
+.barra-preenchimento.andamento { background: var(--primary); }
+.barra-preenchimento.concluida { background: #16a34a; }
+.barra-preenchimento.atrasada { background: #dc2626; }
+.responsavel-linha {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.config-card {
+  max-width: 420px;
+  display: grid;
+  gap: 10px;
+}
+.config-card label { color: var(--text-muted); font-size: 14px; }
+.config-card input,
+.config-card select {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-soft);
+  color: var(--text);
+}
+.config-card button {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
 }

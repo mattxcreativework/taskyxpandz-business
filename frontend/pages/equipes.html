@@ -19,14 +19,23 @@
       <main class="content">
         <section class="tasks">
           <h2 data-i18n="titulo.equipes">Equipes</h2>
-          <p data-i18n="texto.equipes">Em breve: gestão de equipes e membros.</p>
+          <p data-i18n="equipes.descricao">Gerencie equipes e membros.</p>
+
+          <form id="form-equipe" class="task-form">
+            <input id="equipe-nome" data-i18n-placeholder="equipes.nome" placeholder="Nome da equipe" required />
+            <input id="equipe-membros" data-i18n-placeholder="equipes.membros" placeholder="Membros (separados por vírgula)" required />
+            <button type="submit" data-i18n="equipes.adicionar">Adicionar equipe</button>
+          </form>
+
+          <div id="equipes-lista" class="equipes-grid"></div>
         </section>
       </main>
     </div>
   </div>
   <script src="../js/sidebar.js"></script>
   <script src="../js/i18n.js"></script>
-  <script src="../js/auth.js"></script>
   <script src="../js/theme.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/equipes.js"></script>
 </body>
 </html>

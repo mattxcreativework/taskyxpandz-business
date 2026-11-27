@@ -12,7 +12,7 @@ formEmail.addEventListener("submit", async (evento) => {
   mensagem.textContent = "";
 
   try {
-    const resposta = await fetch(`${API_LOGIN}/auth/solicitar-link`, {
+    const resposta = await fetch(`${API_LOGIN}/auth/solicitar-codigo`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: emailInput.value.trim() }),
@@ -20,9 +20,11 @@ formEmail.addEventListener("submit", async (evento) => {
     const dados = await resposta.json();
     if (!resposta.ok) throw new Error(dados.erro || "erro");
 
-    codigoInput.value = dados.token;
+    if (dados.codigo) codigoInput.value = dados.codigo;
     caixaCodigo.hidden = false;
-    mensagem.textContent = traduzir("login.mensagem");
+    mensagem.textContent = traduzir(
+      dados.modo === "email" ? "login.mensagemEmail" : "login.mensagem"
+    );
   } catch {
     mensagem.textContent = traduzir("login.erro");
   }
@@ -38,7 +40,7 @@ formCodigo.addEventListener("submit", async (evento) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: emailInput.value.trim(),
-        token: codigoInput.value.trim(),
+        codigo: codigoInput.value.trim(),
       }),
     });
     const dados = await resposta.json();
