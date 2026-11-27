@@ -2,6 +2,13 @@
 
 > Work Smarter. Grow Further.
 
+
+🚀 **Live demo:** https://mattxcreativework.github.io/taskyxpandz-business/
+
+Login: use `matt@acme.com` + código `DEMO1234` (modo demo, salvo no navegador).
+
+
+
 A small SaaS for managing **tasks, teams, deadlines and reports**, with **passwordless login** (email → code → in).
 
 > **Note:** this is a portfolio demo, not a production service. It runs locally with SQLite and a dev-mode login code (no real email is sent by default). The GitHub Pages version uses a browser-only demo mode (code `DEMO1234`).
