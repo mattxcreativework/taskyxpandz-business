@@ -106,23 +106,6 @@ dados.sqlite       # created automatically (ignored by Git)
 5. Tables are built with `createElement` + `textContent` (no `innerHTML` with user data).
 6. `Acme Studio` is just a fictional default company — editable in the UI.
 
----
-
-## Interview notes
-
-**What is it?** A small task-management SaaS with passwordless access.
-
-**Why passwordless?** No password to store or leak; the code is temporary.
-
-**How is the frontend organized?** One JS file per responsibility; the sidebar is generated once.
-
-**Where is data stored?** API → SQLite; `localStorage` as fallback.
-
-**What did you learn?** Splitting responsibilities, `fetch`, JWT, validation, and basic security.
-
-**Next steps:** real SMTP email, PostgreSQL in production, real multi-tenant.
-
----
 
 ## Status
 
