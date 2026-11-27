@@ -4,7 +4,7 @@
 
 A small SaaS for managing **tasks, teams, deadlines and reports**, with **passwordless login** (email → code → in).
 
-> **Note:** this is a portfolio demo, not a production service. It runs locally with SQLite and a dev-mode login code (no real email is sent by default).
+> **Note:** this is a portfolio demo, not a production service. It runs locally with SQLite and a dev-mode login code (no real email is sent by default). The GitHub Pages version uses a browser-only demo mode (code `DEMO1234`).
 
 ---
 

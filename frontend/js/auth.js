@@ -28,6 +28,17 @@ function sair() {
 }
 
 async function validarSessao() {
+  if (MODO_DEMO) {
+    if (!pegarToken()) {
+      localStorage.setItem(CHAVE_TOKEN, "demo");
+      localStorage.setItem(
+        CHAVE_USUARIO,
+        JSON.stringify({ email: "demo@taskyxpandz.com", empresa: "Acme Studio" })
+      );
+    }
+    return JSON.parse(localStorage.getItem(CHAVE_USUARIO) || "{}");
+  }
+
   const token = pegarToken();
   if (!token) return null;
 

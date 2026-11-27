@@ -11,6 +11,13 @@ formEmail.addEventListener("submit", async (evento) => {
   evento.preventDefault();
   mensagem.textContent = "";
 
+  if (MODO_DEMO) {
+    codigoInput.value = "DEMO1234";
+    caixaCodigo.hidden = false;
+    mensagem.textContent = traduzir("login.mensagemDemo");
+    return;
+  }
+
   try {
     const resposta = await fetch(`${API_LOGIN}/auth/solicitar-codigo`, {
       method: "POST",
@@ -33,6 +40,26 @@ formEmail.addEventListener("submit", async (evento) => {
 formCodigo.addEventListener("submit", async (evento) => {
   evento.preventDefault();
   mensagem.textContent = "";
+
+  if (MODO_DEMO) {
+    if (codigoInput.value.trim().toUpperCase() !== "DEMO1234") {
+      mensagem.textContent = traduzir("login.erro");
+      return;
+    }
+
+    localStorage.setItem("tasky-business-token", "demo");
+    localStorage.setItem(
+      "tasky-business-usuario",
+      JSON.stringify({
+        email: emailInput.value.trim() || "demo@taskyxpandz.com",
+        empresa: "Acme Studio",
+      })
+    );
+
+    const voltar = new URLSearchParams(location.search).get("voltar") || "dashboard.html";
+    location.href = voltar;
+    return;
+  }
 
   try {
     const resposta = await fetch(`${API_LOGIN}/auth/verificar`, {

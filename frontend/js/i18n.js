@@ -1,3 +1,5 @@
+const MODO_DEMO = location.hostname.endsWith("github.io");
+
 const idiomas = {
   pt: {
     "aba.dashboard": "Dashboard | TaskyXPandz for Business",
@@ -45,6 +47,7 @@ const idiomas = {
     "login.codigo": "Código recebido",
     "login.entrar": "Entrar",
     "login.mensagem": "Código gerado. Use o código abaixo para entrar.",
+    "login.mensagemDemo": "Modo demo (GitHub Pages): use o código DEMO1234 abaixo.",
     "login.mensagemEmail": "Código enviado para o seu e-mail.",
     "login.erro": "Não foi possível entrar. Confira o e-mail e o código.",
     "perfil.sair": "Sair",
@@ -126,6 +129,7 @@ const idiomas = {
     "login.codigo": "Received code",
     "login.entrar": "Sign in",
     "login.mensagem": "Code generated. Use the code below to sign in.",
+    "login.mensagemDemo": "Demo mode (GitHub Pages): use code DEMO1234 below.",
     "login.mensagemEmail": "Code sent to your e-mail.",
     "login.erro": "Could not sign in. Check your e-mail and code.",
     "perfil.sair": "Sign out",
