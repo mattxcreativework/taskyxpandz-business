@@ -43,6 +43,7 @@ function renderizar() {
     const status = document.createElement("td");
     const badge = document.createElement("span");
     badge.className = `badge ${t.status}`;
+    badge.dataset.i18n = `badge.${t.status}`;
     badge.textContent = rotulos[t.status];
     status.appendChild(badge);
 
@@ -50,11 +51,13 @@ function renderizar() {
     const btnStatus = document.createElement("button");
     btnStatus.className = "btn-status";
     btnStatus.dataset.i = i;
+    btnStatus.dataset.i18n = "acao.status";
     btnStatus.textContent = "Mudar status";
 
     const btnDel = document.createElement("button");
     btnDel.className = "btn-del";
     btnDel.dataset.i = i;
+    btnDel.dataset.i18n = "acao.excluir";
     btnDel.textContent = "Excluir";
 
     acoes.append(btnStatus, btnDel);
@@ -67,6 +70,8 @@ function renderizar() {
     const el = document.getElementById(id);
     if (el) el.textContent = contar(stats[id]);
   }
+
+  if (typeof aplicarIdioma === "function") aplicarIdioma(idiomaAtual);
 }
 renderizar();
 
