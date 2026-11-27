@@ -45,7 +45,7 @@ Projeto de portfólio feito em camadas: primeiro o front, depois a API, depois o
 
 ### 1. Pré-requisitos
 
-- Node.js 20 ou newer (foi testado com Node 26)
+- Node.js 20 ou superior (foi testado com Node 26)
 - VS Code com a extensão **Live Server**
 - Git
 
@@ -56,7 +56,7 @@ Abra um terminal na pasta do projeto:
 ```powershell
 cd backend
 npm install
-npm run dev
+npm.cmd run dev
 ```
 
 A API sobe em:
@@ -66,6 +66,8 @@ http://127.0.0.1:3001/api/health
 ```
 
 Se aparecer `{"status":"ok","modo":"sqlite"}`, está certo. ✅
+
+> No PowerShell do Windows, `npm run dev` pode ser bloqueado porque o arquivo `npm.ps1` exige permissão de scripts. Use `npm.cmd run dev` — faz a mesma coisa sem mexer na configuração do sistema.
 
 ### 3. Frontend
 
