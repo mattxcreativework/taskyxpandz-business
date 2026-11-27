@@ -4,6 +4,8 @@
 
 A small SaaS for managing **tasks, teams, deadlines and reports**, with **passwordless login** (email → code → in).
 
+> **Note:** this is a portfolio demo, not a production service. It runs locally with SQLite and a dev-mode login code (no real email is sent by default).
+
 ---
 
 ## What it does
